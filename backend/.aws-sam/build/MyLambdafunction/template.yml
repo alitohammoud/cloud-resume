@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: A sample SAM template for deploying an S3 Bucket that will host a static web page for the Clour Resume Challenge.
+
+Resources:
+  CloudResumeS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: alihammoudresume
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+
+  BucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      PolicyDocument:
+        Id: MyCloudBucketPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: arn:aws:s3:::alihammoudresume/*
+      Bucket: !Ref CloudResumeS3Bucket
+
+
+#Testing with lambda
+
+  MyLambdafunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        Policies:
+          - DynamoDBCrudPolicy:
+              TableName: AliVisitorCount
+        Handler: app.lambda_handler
+        Runtime: python3.9
+        Events:
+          getCount:
+            Type: Api
+            Properties:
+              Path: /
+              Method: get
