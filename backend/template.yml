@@ -1,7 +1,8 @@
 AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: A sample SAM template for deploying an S3 Bucket that will host a static web page for the Clour Resume Challenge.
+Description: A sample SAM template to build the backend for the Clour Resume Challenge.
 
+# Deploy an S3 Bucket that will host a static web page
 Resources:
   CloudResumeS3Bucket:
     Type: 'AWS::S3::Bucket'
@@ -27,7 +28,7 @@ Resources:
       Bucket: !Ref CloudResumeS3Bucket
 
 
-#Testing with lambda
+#Deploy Lambda function with API Gateway
 
   MyLambdafunction:
       Type: AWS::Serverless::Function
@@ -43,3 +44,62 @@ Resources:
             Properties:
               Path: /
               Method: get
+
+#Adding the rest: Dynamodb, Cloudfront, Rout53 and Certificate
+
+  MyDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: AliVisitorCount
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: "ID"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "ID"
+          KeyType: "HASH"
+
+  MyDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        ViewerCertificate:
+          AcmCertificateArn: !Ref MyCertificate
+          SslSupportMethod: sni-only
+        Aliases:
+          - engineerhammoud.com
+        DefaultCacheBehavior:
+          ViewerProtocolPolicy: redirect-to-https #Or use: allow-all
+          TargetOriginId: alihammoudresume.s3-website-us-east-1.amazonaws.com
+          ForwardedValues:
+            QueryString: false 
+        Origins:
+          - DomainName: alihammoudresume.s3-website-us-east-1.amazonaws.com
+            Id: alihammoudresume.s3-website-us-east-1.amazonaws.com
+            CustomOriginConfig:
+              OriginProtocolPolicy: http-only
+        Enabled: "true"
+        DefaultRootObject: index.html
+
+#Create an SSL certificate for the site using ACM
+
+  MyCertificate: 
+    Type: "AWS::CertificateManager::Certificate"
+    Properties: 
+      DomainName: engineerhammoud.com
+      ValidationMethod: DNS
+      SubjectAlternativeNames: 
+        - www.engineerhammoud.com
+
+#Create an alias record in Route53 which points to the domain name for the Cloudfront distribution
+
+  MyRoute53Record:
+    Type: "AWS::Route53::RecordSetGroup"
+    Properties:
+      HostedZoneId: Z0648573ONKBNEMEB47Z
+      RecordSets:
+        - Name: engineerhammoud.com
+          Type: A
+          AliasTarget:
+            HostedZoneId: Z2FDTNDATAQYW2  #Hardcoded for Cloudfront
+            DNSName: !GetAtt MyDistribution.DomainName
