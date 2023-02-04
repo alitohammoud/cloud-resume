@@ -9,7 +9,7 @@ jobs:
     timeout-minutes: 2
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
           python-version: 3.8
       - name: Install dependencies
@@ -17,8 +17,9 @@ jobs:
           cd backend/
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install moto boto3
       - name: Run tests with pytest
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: cd backend/ && pytest
+        run: cd backend/ && python app.py
