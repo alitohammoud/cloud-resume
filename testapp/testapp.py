@@ -24,4 +24,3 @@ def lambda_handler(event, context):
             'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
         },
         'body': visitor_count + ' visitors.'}
-    print('VISITORS: ', visitor_count)
