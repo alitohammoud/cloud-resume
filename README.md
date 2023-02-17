@@ -24,7 +24,7 @@ The first step to complete the Cloud Resume Challenge is to obtain a Cloud certi
 
 All these steps together helped me build the front-end. I didn't want to spend too much time building the HTML/CSS part, so I downloaded a free template from [Tutorialzine](https://tutorialzine.com), which I then modified and adapted to my needs: changed colors, created new sections, added icons and also added some extra Javascript for the website navigation. Once I had the site finished, I had to create an **S3 bucket**, upload the site files to the bucket and modify the settings of the S3 bucket to make it a ***static website***.
 
-Next, I needed to make the website secure. By default, S3 serves the content of the static website as **HTTP** which is unsecure. To make it secure, I had to create a *CloudFront* distribution using the S3 bucket as origin. I also had to buy a domain for my site which I did using *Amazon Route 53*, and then created an SSL certificate for the domain, using Amazon Certificate Manager. Finally I needed to create an alias target on Route 53 pointing to my CloudFront distribution.
+Next, I needed to make the website secure. By default, S3 serves the content of the static website as **HTTP** which is unsecure. To make it secure, I had to create a *CloudFront* distribution using the S3 bucket as origin. I also had to buy a domain for my site which I did using *Amazon Route 53*, and then created an SSL certificate for the domain, using *Amazon Certificate Manager*. Finally I needed to create an alias target on Route 53 pointing to my CloudFront distribution.
 
 Once all these steps were completed, I was able to access my site using the domain that I bought with a secure connection (**HTTPS**).
 
@@ -58,7 +58,7 @@ I created a *GitHub repository* for the Cloud Resume Challenge, and uploaded all
 
 1. Test the Lambda code
 2. Re-deploy the infrastructure if there are any changes
-3. Push all the front-end files to the S3 bucket that hosting the static website and invalidate the CloudFront distribution. 
+3. Push all the front-end files to the S3 bucket that is hosting the static website and invalidate the CloudFront distribution. 
 
 **Important note**: **DO NOT** commit AWS credentials to source control! Bad hats will find them and use them against you! GitHub secrets is your friend!!
 
