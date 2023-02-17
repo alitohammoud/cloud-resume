@@ -1,4 +1,4 @@
-#The Cloud Resume Challenge
+# The Cloud Resume Challenge
 
 I graduated as a Computer Engineer and have many years of experience working in the field, mostly doing System Administration and Networking tasks, and playing with HTML/CSS in my free time. The thing about the Computer Science field is that it keeps evolving and expanding very quickly. One of the areas that caught my attention was Cloud computing, and how entire infrastructures could be built and maintined in the Cloud.
 
@@ -15,12 +15,12 @@ And you can find the final result at https://engineerhammoud.com
 Below I will list all the steps required to complete the challenge, as well as a brief summary of the things I did to complete each step.
 
 
-##Step 1: Certification
+## Step 1: Certification
 
 The first step to complete the Cloud Resume Challenge is to obtain a Cloud certification. This is mostly for those who are just starting in the Cloud field with no previous experience or knowledge. In my case, I have obtained already a couple of certifications from Amazon Web Services: **AWS Certified Solutions Architect Associate** & **AWS Certified SysOps Administrator Associate**. Having these certifications helped me big time understanding all the services that I needed to use to complete the challenge. 
 
 
-##Steps 2, 3, 4, 5 and 6: HTML/CSS, S3 bucket, HTTPS, DNS.
+## Steps 2, 3, 4, 5 and 6: HTML/CSS, S3 bucket, HTTPS, DNS.
 
 All these steps together helped me build the front-end. I didn't want to spend too much time building the HTML/CSS part, so I downloaded a free template from [Tutorialzine](https://tutorialzine.com), which I then modified and adapted to my needs: changed colors, created new sections, added icons and also added some extra Javascript for the website navigation. Once I had the site finished, I had to create an **S3 bucket**, upload the site files to the bucket and modify the settings of the S3 bucket to make it a ***static website***.
 
@@ -29,7 +29,7 @@ Next, I needed to make the website secure. By default, S3 serves the content of 
 Once all these steps were completed, I was able to access my site using the domain that I bought with a secure connection (**HTTPS**).
 
   
-##Steps 7, 8, 9, 10: Javascript, Database, API, Python.
+## Steps 7, 8, 9, 10: Javascript, Database, API, Python.
 
 At this point in the challenge, I was already building the back-end of the site. The first thing that we are tasked with is to build the database for the counter. I have created a *DynamoDB* table to store the value of each visit to my site, which can then be fetched and shown on the site itself. But we are asked that the site counter should not communicate with the database directly. Instead, we need to create an API that will be a *middle man*, accepting requests from the web app and then communicating with the database. 
 
@@ -40,18 +40,18 @@ To complete these steps, I created a counter using *Javascript* that will fetch 
 
 
 
-##Step 11: Tests
+## Step 11: Tests
 
 I created a simple test that checks my Python code. This will be used alongside *GitHub actions* whenever I **push** content to my repository.
 
-##Step 12: Infrastructure as Code
+## Step 12: Infrastructure as Code
 
 One of the main goals of the challenge is to learn how to deploy an entire infrastructure using code. This is known as **IaC** or *Infrastructure as Code*. Although this entire challenge can be completed using AWS console (graphical interface), it is more practical to write the entire deployment in a document (using JSON or YAML). By having everything in code, not only it is way faster to deploy all required services, but it is also much easier to make changes or additions to the services being used.
 
 For the challenge, I used a combination of the *AWS CLI* and *AWS SAM CLI*. At the end I decided to stick with AWS SAM CLI for ease of use and because it works perfect with serverless applications like Lambda and API Gateway.
 
 
-##Steps 13, 14 and 15: Source Control,  CI/CD (Back end), CI/CD (Front end).
+## Steps 13, 14 and 15: Source Control,  CI/CD (Back end), CI/CD (Front end).
 
 I created a *GitHub repository* for the Cloud Resume Challenge, and uploaded all the front-end and back-end files. I then set up GitHub actions, which allows to perform actions based on conditions (like a push request). Inside the YAML document used with GitHub actions, I created the following 3 actions that should be triggered whenever there's a push to the repository:
 
@@ -64,7 +64,7 @@ I created a *GitHub repository* for the Cloud Resume Challenge, and uploaded all
 
 
  
-##Final step 16: Create a blog post
+## Final step 16: Create a blog post
 
 
 It took me approximately a month to complete the challenge. It wasn't easy. I was not able to complete any of the steps mentioned above on the first try. I ran into many issues related to permissions, sometimes the problem was related to a mistake in the Cloudformation template (used by SAM CLI). The counter for the site didn't work out of the gate and I had to do a lot of troubleshooting on the Lambda fuction + API. Basically, every single step was a true challenge and required hours of troubleshooting and reading for me to be able to resolve them. I mention this, because **I strongly believe** that this is how we truly learn. We learn from mistakes, we learn from struggle and from challenges. 
